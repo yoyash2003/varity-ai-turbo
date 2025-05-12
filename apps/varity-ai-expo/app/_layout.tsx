@@ -15,6 +15,22 @@ import "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { TamaguiProvider } from "tamagui";
 import config from "../tamagui.config";
+import { ConvexProvider, ConvexReactClient } from "convex/react";
+import { ConvexQueryClient } from "@convex-dev/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const convex = new ConvexReactClient(process.env.EXPO_PUBLIC_CONVEX_URL ?? "");
+
+const convexQueryClient = new ConvexQueryClient(convex);
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			queryKeyHashFn: convexQueryClient.hashFn(),
+			queryFn: convexQueryClient.queryFn(),
+		},
+	},
+});
+convexQueryClient.connect(queryClient);
 
 export default function RootLayout() {
 	// const colorScheme = useColorScheme();
@@ -44,24 +60,32 @@ export default function RootLayout() {
 	}
 
 	return (
-		<TamaguiProvider config={config} defaultTheme={currentTheme}>
-			<ThemeProvider value={currentTheme === "dark" ? DarkTheme : DefaultTheme}>
-				<ToastProvider>
-					<ToastViewport
-						flexDirection="column-reverse"
-						top={top}
-						left={left}
-						right={right}
-					/>
-					<GestureHandlerRootView style={{ flex: 1 }}>
-						<StatusBar
-							backgroundColor={currentTheme === "dark" ? "#090909" : "#FFFFFF"}
-							style={currentTheme === "dark" ? "light" : "dark"}
-						/>
-						<Slot />
-					</GestureHandlerRootView>
-				</ToastProvider>
-			</ThemeProvider>
-		</TamaguiProvider>
+		<ConvexProvider client={convex}>
+			<QueryClientProvider client={queryClient}>
+				<TamaguiProvider config={config} defaultTheme={currentTheme}>
+					<ThemeProvider
+						value={currentTheme === "dark" ? DarkTheme : DefaultTheme}
+					>
+						<ToastProvider>
+							<ToastViewport
+								flexDirection="column-reverse"
+								top={top}
+								left={left}
+								right={right}
+							/>
+							<GestureHandlerRootView style={{ flex: 1 }}>
+								<StatusBar
+									backgroundColor={
+										currentTheme === "dark" ? "#090909" : "#FFFFFF"
+									}
+									style={currentTheme === "dark" ? "light" : "dark"}
+								/>
+								<Slot />
+							</GestureHandlerRootView>
+						</ToastProvider>
+					</ThemeProvider>
+				</TamaguiProvider>
+			</QueryClientProvider>
+		</ConvexProvider>
 	);
 }
