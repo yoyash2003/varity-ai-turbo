@@ -1,0 +1,102 @@
+{
+	"cli": {
+		"version": ">= 15.0.10",
+		"appVersionSource": "remote"
+	},
+	"build": {
+		"development": {
+			"bun": "1.2.8",
+			"node": "22.14.0",
+			"developmentClient": true,
+			"distribution": "internal",
+			"ios": {
+				"image": "latest"
+			},
+			"android": {
+				"image": "latest"
+			},
+			"channel": "development",
+			"env": {
+				"ENVIRONMENT": "development"
+			}
+		},
+		"development-simulator": {
+			"bun": "1.2.8",
+			"node": "22.14.0",
+			"developmentClient": true,
+			"distribution": "internal",
+			"ios": {
+				"simulator": true,
+				"image": "latest"
+			},
+			"android": {
+				"image": "latest"
+			},
+			"channel": "development-simulator",
+			"env": {
+				"ENVIRONMENT": "development"
+			}
+		},
+		"production-internal": {
+			"bun": "1.2.8",
+			"node": "22.14.0",
+			"autoIncrement": true,
+			"channel": "production",
+			"distribution": "internal",
+			"ios": {
+				"image": "latest"
+			},
+			"android": {
+				"buildType": "apk",
+				"image": "latest"
+			},
+			"env": {
+				"ENVIRONMENT": "production"
+			}
+		},
+		"preview": {
+			"bun": "1.2.8",
+			"node": "22.14.0",
+			"autoIncrement": true,
+			"channel": "preview",
+			"distribution": "store",
+			"ios": {
+				"image": "latest"
+			},
+			"android": {
+				"buildType": "app-bundle",
+				"image": "latest"
+			},
+			"env": {
+				"ENVIRONMENT": "preview"
+			}
+		},
+		"production": {
+			"bun": "1.2.8",
+			"node": "22.14.0",
+			"autoIncrement": true,
+			"channel": "production",
+			"distribution": "store",
+			"ios": {
+				"image": "latest"
+			},
+			"android": {
+				"buildType": "app-bundle",
+				"image": "latest"
+			},
+			"env": {
+				"ENVIRONMENT": "production"
+			}
+		}
+	},
+	"submit": {
+		"production": {
+			"android": {},
+			"ios": {}
+		},
+		"preview": {
+			"android": {},
+			"ios": {}
+		}
+	}
+}

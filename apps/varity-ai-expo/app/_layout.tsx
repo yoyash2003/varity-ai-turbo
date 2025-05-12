@@ -15,11 +15,22 @@ import "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { TamaguiProvider } from "tamagui";
 import config from "../tamagui.config";
-import { ConvexProvider, ConvexReactClient } from "convex/react";
+import { ConvexReactClient } from "convex/react";
 import { ConvexQueryClient } from "@convex-dev/react-query";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import * as SecureStore from "expo-secure-store";
 
-const convex = new ConvexReactClient(process.env.EXPO_PUBLIC_CONVEX_URL ?? "");
+import { ConvexAuthProvider } from "@convex-dev/auth/react";
+
+const convex = new ConvexReactClient(process.env.EXPO_PUBLIC_CONVEX_URL ?? "", {
+	unsavedChangesWarning: false,
+});
+
+const secureStorage = {
+	getItem: SecureStore.getItemAsync,
+	setItem: SecureStore.setItemAsync,
+	removeItem: SecureStore.deleteItemAsync,
+};
 
 const convexQueryClient = new ConvexQueryClient(convex);
 const queryClient = new QueryClient({
@@ -60,7 +71,14 @@ export default function RootLayout() {
 	}
 
 	return (
-		<ConvexProvider client={convex}>
+		<ConvexAuthProvider
+			client={convex}
+			storage={
+				Platform.OS === "android" || Platform.OS === "ios"
+					? secureStorage
+					: undefined
+			}
+		>
 			<QueryClientProvider client={queryClient}>
 				<TamaguiProvider config={config} defaultTheme={currentTheme}>
 					<ThemeProvider
@@ -86,6 +104,6 @@ export default function RootLayout() {
 					</ThemeProvider>
 				</TamaguiProvider>
 			</QueryClientProvider>
-		</ConvexProvider>
+		</ConvexAuthProvider>
 	);
 }

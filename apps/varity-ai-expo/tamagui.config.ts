@@ -1,15 +1,4 @@
-import { defaultConfig } from '@tamagui/config/v4'
-import { createTamagui } from 'tamagui'
-
-export const tamaguiConfig = createTamagui(defaultConfig)
-
-export default tamaguiConfig
-
-export type Conf = typeof tamaguiConfig
-
-declare module 'tamagui' {
-  interface TamaguiCustomConfig extends Conf {}
-}import { createAnimations } from "@tamagui/animations-react-native";
+import { createAnimations } from "@tamagui/animations-react-native";
 import { createInterFont } from "@tamagui/font-inter";
 import { shorthands } from "@tamagui/shorthands";
 import { tokens } from "@tamagui/themes";
