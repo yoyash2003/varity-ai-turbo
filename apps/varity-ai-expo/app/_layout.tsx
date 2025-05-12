@@ -1,29 +1,67 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/useColorScheme';
+import {
+	DarkTheme,
+	DefaultTheme,
+	ThemeProvider,
+} from "@react-navigation/native";
+import { ToastProvider, ToastViewport } from "@tamagui/toast";
+import { useFonts } from "expo-font";
+import * as NavigationBar from "expo-navigation-bar";
+import { Slot } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import React from "react";
+import { Platform } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import "react-native-reanimated";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { TamaguiProvider } from "tamagui";
+import config from "../tamagui.config";
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+	// const colorScheme = useColorScheme();
+	const currentTheme = "dark";
 
-  if (!loaded) {
-    // Async font loading only occurs in development.
-    return null;
-  }
+	const { left, top, right } = useSafeAreaInsets(); // safe area for tamagui toast
 
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
-  );
+	//set the navigation bar color for android platform
+	if (Platform.OS === "android") {
+		NavigationBar.setBackgroundColorAsync(
+			currentTheme === "dark" ? "#000000" : "#FFFFFF",
+		);
+	}
+
+	const [loaded] = useFonts({
+		InterBlack: require("@tamagui/font-inter/otf/Inter-Black.otf"),
+		InterBold: require("@tamagui/font-inter/otf/Inter-Bold.otf"),
+		InterSemiBold: require("@tamagui/font-inter/otf/Inter-SemiBold.otf"),
+		InterMedium: require("@tamagui/font-inter/otf/Inter-Medium.otf"),
+		InterRegular: require("@tamagui/font-inter/otf/Inter-Regular.otf"),
+		InterThin: require("@tamagui/font-inter/otf/Inter-Thin.otf"),
+	});
+
+	if (!loaded) {
+		// Async font loading only occurs in development.
+		return null;
+	}
+
+	return (
+		<TamaguiProvider config={config} defaultTheme={currentTheme}>
+			<ThemeProvider value={currentTheme === "dark" ? DarkTheme : DefaultTheme}>
+				<ToastProvider>
+					<ToastViewport
+						flexDirection="column-reverse"
+						top={top}
+						left={left}
+						right={right}
+					/>
+					<GestureHandlerRootView style={{ flex: 1 }}>
+						<StatusBar
+							backgroundColor={currentTheme === "dark" ? "#090909" : "#FFFFFF"}
+							style={currentTheme === "dark" ? "light" : "dark"}
+						/>
+						<Slot />
+					</GestureHandlerRootView>
+				</ToastProvider>
+			</ThemeProvider>
+		</TamaguiProvider>
+	);
 }
