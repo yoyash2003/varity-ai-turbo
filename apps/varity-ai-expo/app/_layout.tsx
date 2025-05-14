@@ -3,7 +3,7 @@ import {
 	DefaultTheme,
 	ThemeProvider,
 } from "@react-navigation/native";
-import { ToastProvider, ToastViewport } from "@tamagui/toast";
+// import { ToastProvider, ToastViewport } from "@tamagui/toast";
 import { useFonts } from "expo-font";
 import * as NavigationBar from "expo-navigation-bar";
 import { Slot } from "expo-router";
@@ -44,12 +44,10 @@ const queryClient = new QueryClient({
 convexQueryClient.connect(queryClient);
 
 export default function RootLayout() {
-	// const colorScheme = useColorScheme();
 	const currentTheme = "dark";
 
-	const { left, top, right } = useSafeAreaInsets(); // safe area for tamagui toast
+	const { left, top, right } = useSafeAreaInsets();
 
-	//set the navigation bar color for android platform
 	if (Platform.OS === "android") {
 		NavigationBar.setBackgroundColorAsync(
 			currentTheme === "dark" ? "#000000" : "#FFFFFF",
@@ -66,7 +64,6 @@ export default function RootLayout() {
 	});
 
 	if (!loaded) {
-		// Async font loading only occurs in development.
 		return null;
 	}
 
@@ -84,23 +81,23 @@ export default function RootLayout() {
 					<ThemeProvider
 						value={currentTheme === "dark" ? DarkTheme : DefaultTheme}
 					>
-						<ToastProvider>
+						{/* <ToastProvider>
 							<ToastViewport
 								flexDirection="column-reverse"
 								top={top}
 								left={left}
 								right={right}
+							/> */}
+						<GestureHandlerRootView style={{ flex: 1 }}>
+							<StatusBar
+								backgroundColor={
+									currentTheme === "dark" ? "#090909" : "#FFFFFF"
+								}
+								style={currentTheme === "dark" ? "light" : "dark"}
 							/>
-							<GestureHandlerRootView style={{ flex: 1 }}>
-								<StatusBar
-									backgroundColor={
-										currentTheme === "dark" ? "#090909" : "#FFFFFF"
-									}
-									style={currentTheme === "dark" ? "light" : "dark"}
-								/>
-								<Slot />
-							</GestureHandlerRootView>
-						</ToastProvider>
+							<Slot />
+						</GestureHandlerRootView>
+						{/* </ToastProvider> */}
 					</ThemeProvider>
 				</TamaguiProvider>
 			</QueryClientProvider>

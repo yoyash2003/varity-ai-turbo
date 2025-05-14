@@ -225,21 +225,21 @@ export const Subtitle = styled(SizableText, {
 	size: "$9",
 });
 
-// Primary background image
-export const ImageBackgroundPrimary = styled(RNImageBackground, {
-	name: "ImageBackgroundPrimary",
-	flex: 1,
-	backgroundColor: "$background",
-	source: require("./assets/wallpapers.png"),
-});
+// // Primary background image
+// export const ImageBackgroundPrimary = styled(RNImageBackground, {
+// 	name: "ImageBackgroundPrimary",
+// 	flex: 1,
+// 	backgroundColor: "$background",
+// 	source: require("./assets/wallpapers.png"),
+// });
 
-// Secondary background image
-export const ImageBackgroundSecondary = styled(RNImageBackground, {
-	name: "ImageBackgroundSecondary",
-	flex: 1,
-	backgroundColor: "$background",
-	source: require("./assets/wall.png"),
-});
+// // Secondary background image
+// export const ImageBackgroundSecondary = styled(RNImageBackground, {
+// 	name: "ImageBackgroundSecondary",
+// 	flex: 1,
+// 	backgroundColor: "$background",
+// 	source: require("./assets/wall.png"),
+// });
 
 export const ContainerPrimary = styled(YStack, {
 	name: "ContainerPrimary",

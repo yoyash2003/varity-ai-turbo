@@ -1,7 +1,7 @@
 import { useAuthActions } from "@convex-dev/auth/react";
 import { makeRedirectUri } from "expo-auth-session";
 import { openAuthSessionAsync } from "expo-web-browser";
-import { Button, Platform } from "react-native";
+import { Button, Platform, View } from "react-native";
 
 const redirectTo = makeRedirectUri();
 
@@ -26,4 +26,12 @@ function SignIn() {
 		}
 	};
 	return <Button onPress={handleSignIn} title="Sign in with Google" />;
+}
+
+export default function OnboardingScreen() {
+	return (
+		<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+			<SignIn />
+		</View>
+	);
 }
