@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "varity-ai-expo",
-    "slug": "varity-ai-expo",
+    "name": "Verity AI",
+    "slug": "verity-ai-expo",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "varity-ai-expo",
+    "scheme": "verity-ai-expo",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.varity.ai",
+      "bundleIdentifier": "com.verity.ai",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
